@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Campaign, Company, getCampaigns, getCampaignTargets } from '@/lib/api'
+import { Campaign, Company, getCampaigns, getCampaignTargets, API_BASE } from '@/lib/api'
 
 export default function CampaignPage({ params }: { params: { id: string } }) {
   const campaignId = parseInt(params.id)
@@ -14,7 +14,7 @@ export default function CampaignPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     Promise.all([
       getCampaigns().then(campaigns => campaigns.find(c => c.id === campaignId)),
-      fetch(process.env.NEXT_PUBLIC_API_BASE + '/companies/').then(res => res.json()),
+      fetch(API_BASE + '/companies/').then(res => res.json()),
       getCampaignTargets(campaignId)
     ])
       .then(([campaign, companies, targetIds]) => {
